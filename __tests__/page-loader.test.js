@@ -1,4 +1,4 @@
-import getName from '../src';
+import { getName } from '../src';
 
 test('change name test', () => {
   const pageAddress1 = 'https://hexlet.io/courses';
