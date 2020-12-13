@@ -2,7 +2,7 @@
 
 import { Command } from 'commander';
 import { version } from '../../package.json';
-import getName from '..';
+import { getName } from '..';
 
 const program = new Command();
 program
