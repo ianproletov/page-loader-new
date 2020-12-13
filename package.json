@@ -1,0 +1,22 @@
+{
+  "name": "page-loader-new",
+  "version": "0.1.0",
+  "description": "second attempt to do the third hexlet project in nodejs-profession",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ianproletov/page-loader-new.git"
+  },
+  "keywords": [
+    "hexlet"
+  ],
+  "author": "ian proletov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ianproletov/page-loader-new/issues"
+  },
+  "homepage": "https://github.com/ianproletov/page-loader-new#readme"
+}
