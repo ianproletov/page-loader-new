@@ -26,4 +26,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - run: make install
     - run: make lint
-    - run: make test
+    - uses: paambaati/codeclimate-action@v2.2.4
+      env:
+        CC_TEST_REPORTER_ID: 75602846965b2c9505e630a810468fdc960a23985dcf561fdfcbd2bd9b39f85f
+      with:
+        coverageCommand: make test-coverage 

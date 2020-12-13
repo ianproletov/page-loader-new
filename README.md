@@ -1,2 +1,3 @@
-<a href="https://codeclimate.com/github/ianproletov/page-loader-new/maintainability"><img src="https://api.codeclimate.com/v1/badges/5604a6033ee50e676477/maintainability" /></a>
 [![Node.js CI](https://github.com/ianproletov/page-loader-new/workflows/Node.js%20CI/badge.svg)](https://github.com/ianproletov/page-loader-new/actions)
+<a href="https://codeclimate.com/github/ianproletov/page-loader-new/maintainability"><img src="https://api.codeclimate.com/v1/badges/5604a6033ee50e676477/maintainability" /></a>
+<a href="https://codeclimate.com/github/ianproletov/page-loader-new/test_coverage"><img src="https://api.codeclimate.com/v1/badges/5604a6033ee50e676477/test_coverage" /></a>
