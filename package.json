@@ -3,9 +3,15 @@
   "version": "0.1.0",
   "description": "second attempt to do the third hexlet project in nodejs-profession",
   "main": "index.js",
+  "bin": "src/bin/page-loader.js",
   "scripts": {
+    "build": "NODE_ENV=production babel src --out dir dist --source-maps inline",
+    "prepublishOnly": "npm run build",
     "test": "jest"
   },
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ianproletov/page-loader-new.git"
@@ -18,5 +24,11 @@
   "bugs": {
     "url": "https://github.com/ianproletov/page-loader-new/issues"
   },
-  "homepage": "https://github.com/ianproletov/page-loader-new#readme"
+  "homepage": "https://github.com/ianproletov/page-loader-new#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/node": "^7.12.10",
+    "@babel/preset-env": "^7.12.10"
+  }
 }
