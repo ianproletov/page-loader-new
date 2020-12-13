@@ -1,0 +1,1 @@
+<a href="https://codeclimate.com/github/ianproletov/page-loader-new/maintainability"><img src="https://api.codeclimate.com/v1/badges/5604a6033ee50e676477/maintainability" /></a>
