@@ -13,7 +13,7 @@ const loadPage = (pageAddress, outputPath) => axios.get(pageAddress)
   .then(({ data }) => {
     const filename = getName(pageAddress);
     const filepath = path.join(outputPath, filename);
-    fs.writeFile(filepath, data.toString());
+    return fs.writeFile(filepath, data.toString());
   });
 
 export default loadPage;

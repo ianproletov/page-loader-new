@@ -12,8 +12,13 @@ const getFixturesPath = (filename) => path.join('./__tests__/__fixtures__', file
 
 const readFile = (filename) => fs.readFile(getFixturesPath(filename), 'utf-8');
 
-test('testdownloading', async () => {
-  const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
+let tmpDir;
+
+beforeEach(async () => {
+  tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
+});
+
+test('download test', async () => {
   const expectedData = await readFile('page-actual.html');
   nock('https://proletov.com')
     .get('/page')
