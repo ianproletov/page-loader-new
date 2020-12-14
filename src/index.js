@@ -20,7 +20,7 @@ const types = {
 
 const getName = (pageAddress, type) => types[type](pageAddress);
 
-const loadPage = (pageAddress, outputPath) => {
+export default (pageAddress, outputPath) => {
   const linkDir = getName(pageAddress, 'dir');
   const loadedLinks = [];
   return axios.get(pageAddress)
@@ -52,5 +52,3 @@ const loadPage = (pageAddress, outputPath) => {
       return Promise.all(promises);
     });
 };
-
-export default loadPage;
