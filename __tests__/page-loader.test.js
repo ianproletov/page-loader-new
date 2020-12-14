@@ -27,3 +27,20 @@ test('download test', async () => {
   const actualData = await fs.readFile(path.join(tmpDir, 'proletov-com-page.html'), 'utf-8');
   expect(actualData).toBe(expectedData);
 });
+
+test('transform image link', async () => {
+  const expectedData = await readFile('page-expected.html');
+  const beforeData = await readFile('page-actual.html');
+  const imageData = await readFile('image.png');
+  nock('https://proletov.com')
+    .get('/page')
+    .reply(200, beforeData)
+    .get('/assets/image.png')
+    .reply(200, imageData);
+  await loadPage('https://proletov.com/page', tmpDir);
+  const actualData = await fs.readFile(path.join(tmpDir, 'proletov-com-page.html'), 'utf-8');
+  expect(actualData).toBe(expectedData);
+  const receivedImageDataPath = path.join(tmpDir, '_files', 'proletov-com-assets-image.png');
+  const receivedImageData = fs.readFile(receivedImageDataPath);
+  expect(receivedImageData).toBe(expectedData);
+});
