@@ -10,10 +10,11 @@ export const getName = (pageAddress) => {
 };
 
 const loadPage = (pageAddress, outputPath) => {
-  axios.get(pageAddress)
+  return axios.get(pageAddress)
     .then(({ data }) => {
       const filename = getName(pageAddress);
-      fs.readFile(path.join(outputPath, filename), data.toString());
+      const filepath = path.join(outputPath, filename);
+      fs.writeFile(filepath, data.toString());
     });
 };
 
