@@ -4,22 +4,13 @@ import { promises as fs } from 'fs';
 import os from 'os';
 import axios from 'axios';
 import httpAdapter from 'axios/lib/adapters/http';
-import loadPage, { getName } from '../src';
+import loadPage from '../src';
 
 axios.defaults.adapter = httpAdapter;
 
 const getFixturesPath = (filename) => path.join('./__tests__/__fixtures__', filename);
 
 const readFile = (filename) => fs.readFile(getFixturesPath(filename), 'utf-8');
-
-test('change name test', () => {
-  const pageAddress1 = 'https://hexlet.io/courses';
-  const expectedName1 = 'hexlet-io-courses.html';
-  expect(getName(pageAddress1)).toBe(expectedName1);
-  const pageAddress2 = 'http://google.com/ian-proletov/';
-  const expectedName2 = 'google-com-ian-proletov.html';
-  expect(getName(pageAddress2)).toBe(expectedName2);
-});
 
 test('testdownloading', async () => {
   const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
