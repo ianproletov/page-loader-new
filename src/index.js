@@ -3,7 +3,7 @@ import axios from 'axios';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-const getName = (pageAddress) => {
+export const getName = (pageAddress) => {
   const { host, pathname } = new URL(pageAddress);
   const changed = `${host}${_.trimEnd(pathname, '/')}`.replace(/\W/g, '-');
   return `${changed}.html`;
