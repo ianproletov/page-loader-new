@@ -1,10 +1,10 @@
-import loadPage, { getName } from '../src';
 import nock from 'nock';
 import path from 'path';
 import { promises as fs } from 'fs';
 import os from 'os';
 import axios from 'axios';
 import httpAdapter from 'axios/lib/adapters/http';
+import loadPage, { getName } from '../src';
 
 axios.defaults.adapter = httpAdapter;
 
@@ -21,7 +21,7 @@ test('change name test', () => {
   expect(getName(pageAddress2)).toBe(expectedName2);
 });
 
-test('test downloading', async () => {
+test('testdownloading', async () => {
   const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'page-loader-'));
   const expectedData = await readFile('page-actual.html');
   nock('https://proletov.com')

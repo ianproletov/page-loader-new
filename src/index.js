@@ -9,13 +9,11 @@ export const getName = (pageAddress) => {
   return `${changed}.html`;
 };
 
-const loadPage = (pageAddress, outputPath) => {
-  return axios.get(pageAddress)
-    .then(({ data }) => {
-      const filename = getName(pageAddress);
-      const filepath = path.join(outputPath, filename);
-      fs.writeFile(filepath, data.toString());
-    });
-};
+const loadPage = (pageAddress, outputPath) => axios.get(pageAddress)
+  .then(({ data }) => {
+    const filename = getName(pageAddress);
+    const filepath = path.join(outputPath, filename);
+    fs.writeFile(filepath, data.toString());
+  });
 
 export default loadPage;
