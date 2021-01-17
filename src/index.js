@@ -28,7 +28,7 @@ export default (pageAddress, outputPath) => {
   let htmlData;
   return axios.get(pageAddress)
     .then(({ data }) => {
-     const $ = cheerio.load(data);
+      const $ = cheerio.load(data);
       $('base').remove();
       $('img').each((index, currentTag) => {
         const link = $('img').attr('src');
