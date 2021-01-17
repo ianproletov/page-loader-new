@@ -23,11 +23,12 @@ const getName = (pageAddress, type) => types[type](pageAddress);
 export default (pageAddress, outputPath) => {
   const linkDir = getName(pageAddress, 'dir');
   const loadedLinks = [];
+  const filename = getName(pageAddress, 'file');
+  const filepath = path.join(outputPath, filename);
+  let htmlData;
   return axios.get(pageAddress)
     .then(({ data }) => {
-      const filename = getName(pageAddress, 'file');
-      const filepath = path.join(outputPath, filename);
-      const $ = cheerio.load(data);
+     const $ = cheerio.load(data);
       $('base').remove();
       $('img').each((index, currentTag) => {
         const link = $('img').attr('src');
@@ -38,9 +39,10 @@ export default (pageAddress, outputPath) => {
           $(currentTag).attr('src', linkPath);
         }
       });
-      fs.mkdir(path.join(outputPath, linkDir));
-      return fs.writeFile(filepath, $.html());
+      htmlData = $.html();
+      return fs.mkdir(path.join(outputPath, linkDir));
     })
+    .then(() => fs.writeFile(filepath, htmlData))
     .then(() => {
       const promises = loadedLinks.map((link) => axios.get(url.resolve(pageAddress, link), { responseType: 'arraybuffer' })
         .then(({ data }) => {
