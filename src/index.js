@@ -18,6 +18,12 @@ const types = {
   dir: (pageAddress) => `${types.main(pageAddress)}_files`,
 };
 
+const tags = {
+  script: 'src',
+  link: 'href',
+  img: 'src',
+};
+
 const getName = (pageAddress, type) => types[type](pageAddress);
 
 export default (pageAddress, outputPath) => {
@@ -30,14 +36,18 @@ export default (pageAddress, outputPath) => {
     .then(({ data }) => {
       const $ = cheerio.load(data);
       $('base').remove();
-      $('img').each((index, currentTag) => {
-        const link = $('img').attr('src');
-        if (link && !url.parse(link).host) {
-          const linkName = getName(link, 'link');
-          const linkPath = path.join(linkDir, linkName);
-          loadedLinks.push(link);
-          $(currentTag).attr('src', linkPath);
-        }
+      const goalTags = Object.keys(tags);
+      goalTags.forEach((tag) => {
+        const attribute = tags[tag];
+        $(tag).each((index, currentTag) => {
+          const link = $(tag).attr(attribute);
+          if (link && !url.parse(link).host) {
+            const linkName = getName(link, 'link');
+            const linkPath = path.join(linkDir, linkName);
+            loadedLinks.push(link);
+            $(currentTag).attr(attribute, linkPath);
+          }
+        });
       });
       htmlData = $.html();
       return fs.mkdir(path.join(outputPath, linkDir));
