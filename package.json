@@ -1,6 +1,6 @@
 {
   "name": "page-loader-new",
-  "version": "0.1.0",
+  "version": "0.4.0",
   "description": "second attempt to do the third hexlet project in nodejs-profession",
   "main": "dist/index.js",
   "bin": {
@@ -46,6 +46,7 @@
     "axios": "^0.21.0",
     "cheerio": "^1.0.0-rc.3",
     "commander": "^6.2.0",
+    "debug": "^2.6.9",
     "lodash": "^4.17.20"
   }
 }

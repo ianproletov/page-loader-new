@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import axios from 'axios';
 import { promises as fs } from 'fs';
+import debug from 'debug';
 import path from 'path';
 import cheerio from 'cheerio';
 import url from 'url';
@@ -24,6 +25,10 @@ const tags = {
   img: 'src',
 };
 
+const loadLog = debug('page-loader:download');
+const getLog = debug('page-loader:get');
+const createLog = debug('page-loader:create');
+
 const getName = (pageAddress, type) => types[type](pageAddress);
 
 export default (pageAddress, outputPath) => {
@@ -34,6 +39,8 @@ export default (pageAddress, outputPath) => {
   let htmlData;
   return axios.get(pageAddress)
     .then(({ data }) => {
+      getLog('response from', pageAddress);
+      loadLog('to', outputPath);
       const $ = cheerio.load(data);
       $('base').remove();
       const goalTags = Object.keys(tags);
@@ -46,10 +53,12 @@ export default (pageAddress, outputPath) => {
             const linkPath = path.join(linkDir, linkName);
             loadedLinks.push(link);
             $(currentTag).attr(attribute, linkPath);
+            getLog('link', link);
           }
         });
       });
       htmlData = $.html();
+      createLog('directory for downloading page content: ', path.join(outputPath, linkDir));
       return fs.mkdir(path.join(outputPath, linkDir));
     })
     .then(() => fs.writeFile(filepath, htmlData))
@@ -59,6 +68,7 @@ export default (pageAddress, outputPath) => {
           const linkName = getName(link, 'link');
           const linkPath = path.join(linkDir, linkName);
           const absoluteLinkPath = path.join(outputPath, linkPath);
+          loadLog(`${link} content to ${absoluteLinkPath}`);
           return fs.writeFile(absoluteLinkPath, data);
         }));
       return Promise.all(promises);
