@@ -42,3 +42,23 @@ test('downloading', async () => {
   expect(receivedStyleData.toString()).toBe(styleData.toString());
   expect(receivedScriptData.toString()).toBe(scriptData.toString());
 });
+
+describe('Errors', () => {
+  test('Wrong directory', async () => {
+    const wrongDirPath = '/wrong/wrong/wrong';
+    await expect(loadPage('https://hexlet.io', wrongDirPath)).rejects.toThrow();
+  });
+  test('Wrong page address', async () => {
+    const tmpDirPath = await fs.mkdtemp(`${os.tmpdir()}${path.sep}`);
+    await expect(loadPage('https://hexxlet.io', tmpDirPath)).rejects.toThrow();
+  });
+  test('Wrong link in main file', async () => {
+    const wrongHTMLPath = getFixturesPath('wrong.html');
+    const wrongData = await fs.readFile(wrongHTMLPath, 'utf-8');
+    const tmpDirPath = await fs.mkdtemp(`${os.tmpdir()}${path.sep}`);
+    nock('https://proletov.com')
+      .get('/page')
+      .reply(200, wrongData);
+    await expect(loadPage('https://proletov.com', tmpDirPath)).rejects.toThrow();
+  });
+});

@@ -9,7 +9,7 @@
   "scripts": {
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "DEBUG=page-loader* jest"
   },
   "files": [
     "dist"
@@ -25,6 +25,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/ianproletov/page-loader-new/issues"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "homepage": "https://github.com/ianproletov/page-loader-new#readme",
   "devDependencies": {

@@ -72,5 +72,9 @@ export default (pageAddress, outputPath) => {
           return fs.writeFile(absoluteLinkPath, data);
         }));
       return Promise.all(promises);
+    })
+    .catch((error) => {
+      const message = `The error occured: ${error.message}`;
+      throw new Error(message);
     });
 };
