@@ -2,6 +2,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import { promises as fs } from 'fs';
 import debug from 'debug';
+import Listr from 'listr';
 import path from 'path';
 import cheerio from 'cheerio';
 import url from 'url';
@@ -61,17 +62,23 @@ export default (pageAddress, outputPath) => {
       createLog('directory for downloading page content: ', path.join(outputPath, linkDir));
       return fs.mkdir(path.join(outputPath, linkDir));
     })
-    .then(() => fs.writeFile(filepath, htmlData))
     .then(() => {
-      const promises = loadedLinks.map((link) => axios.get(url.resolve(pageAddress, link), { responseType: 'arraybuffer' })
-        .then(({ data }) => {
-          const linkName = getName(link, 'link');
-          const linkPath = path.join(linkDir, linkName);
-          const absoluteLinkPath = path.join(outputPath, linkPath);
-          loadLog(`${link} content to ${absoluteLinkPath}`);
-          return fs.writeFile(absoluteLinkPath, data);
-        }));
-      return Promise.all(promises);
+      const tasks = new Listr(loadedLinks.map((link) => ({
+        title: `downloading ${link}`,
+        task: () => axios.get(url.resolve(pageAddress, link), { responseType: 'arraybuffer' })
+          .then(({ data }) => {
+            const linkName = getName(link, 'link');
+            const linkPath = path.join(linkDir, linkName);
+            const absoluteLinkPath = path.join(outputPath, linkPath);
+            loadLog(`${link} content to ${absoluteLinkPath}`);
+            return fs.writeFile(absoluteLinkPath, data);
+          }),
+      })), { concurrent: true });
+      return tasks.run();
+    })
+    .then(() => {
+      loadLog('page to: ', filepath);
+      return fs.writeFile(filepath, htmlData);
     })
     .catch((error) => {
       const message = `The error occured: ${error.message}`;
